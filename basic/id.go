@@ -3,6 +3,9 @@ package basic
 import (
 	"bytes"
 	"encoding/binary"
+	"math/rand"
+
+	"github.com/hitoshi44/go-uid64"
 )
 
 type Id struct {
@@ -17,11 +20,19 @@ func NewId(client, clock uint64) *Id {
 	}
 }
 
-func NewEmptyId() *Id {
-	return &Id{
-		Client: 0,
-		Clock:  0,
+func GenerateId() (*Id, error) {
+	g, err := uid64.NewGenerator(rand.Intn(4))
+	if err != nil {
+		return nil, err
 	}
+	id, err := g.Gen()
+	if err != nil {
+		return nil, err
+	}
+	return &Id{
+		Client: uint64(id),
+		Clock:  0,
+	}, nil
 }
 
 // was compareIDs in yjs

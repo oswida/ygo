@@ -38,13 +38,19 @@ func TestIdRead(t *testing.T) {
 		t.Errorf("Problem writing identifier %v", err)
 	}
 	source := bytes.NewBuffer(buf.Bytes())
-	firstId := basic.NewEmptyId()
+	firstId, err := basic.GenerateId()
+	if err != nil {
+		t.Errorf("Problem generating identifier client %v", err)
+	}
 	firstId.Read(source)
 	reference := basic.NewId(1, 2)
 	if !reflect.DeepEqual(reference, firstId) {
 		t.Errorf("expect %v got %v", reference, firstId)
 	}
-	secondId := basic.NewEmptyId()
+	secondId, err := basic.GenerateId()
+	if err != nil {
+		t.Errorf("Problem generating identifier client %v", err)
+	}
 	err = secondId.Read(source)
 	if err != nil {
 		t.Errorf("Problem reading identifier %v", err)
