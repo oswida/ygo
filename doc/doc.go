@@ -1,7 +1,7 @@
 package doc
 
 import (
-	"ygo/basic"
+	"ygo/common"
 
 	"github.com/google/uuid"
 )
@@ -9,7 +9,7 @@ import (
 // Should be observable
 type YDoc struct {
 	Guid     uuid.UUID
-	ClientID *basic.Id
+	ClientID *common.Id
 	// CollectionID
 	// GC
 	// GCFilter

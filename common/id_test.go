@@ -1,20 +1,20 @@
-package basic_test
+package common_test
 
 import (
 	"bytes"
 	"reflect"
 	"testing"
-	"ygo/basic"
+	"ygo/common"
 )
 
 func TestIdWrite(t *testing.T) {
-	ident := basic.NewId(1, 1)
+	ident := common.NewId(1, 1)
 	buf := bytes.NewBuffer([]byte{})
 	err := ident.Write(buf)
 	if err != nil {
 		t.Errorf("Problem writing identifier %v", err)
 	}
-	ident = basic.NewId(1024, 1024)
+	ident = common.NewId(1024, 1024)
 	err = ident.Write(buf)
 	if err != nil {
 		t.Errorf("Problem writing identifier %v", err)
@@ -26,28 +26,28 @@ func TestIdWrite(t *testing.T) {
 }
 
 func TestIdRead(t *testing.T) {
-	ident := basic.NewId(1, 2)
+	ident := common.NewId(1, 2)
 	buf := bytes.NewBuffer([]byte{})
 	err := ident.Write(buf)
 	if err != nil {
 		t.Errorf("Problem writing identifier %v", err)
 	}
-	ident = basic.NewId(1024, 1025)
+	ident = common.NewId(1024, 1025)
 	err = ident.Write(buf)
 	if err != nil {
 		t.Errorf("Problem writing identifier %v", err)
 	}
 	source := bytes.NewBuffer(buf.Bytes())
-	firstId, err := basic.GenerateId()
+	firstId, err := common.GenerateId()
 	if err != nil {
 		t.Errorf("Problem generating identifier client %v", err)
 	}
 	firstId.Read(source)
-	reference := basic.NewId(1, 2)
+	reference := common.NewId(1, 2)
 	if !reflect.DeepEqual(reference, firstId) {
 		t.Errorf("expect %v got %v", reference, firstId)
 	}
-	secondId, err := basic.GenerateId()
+	secondId, err := common.GenerateId()
 	if err != nil {
 		t.Errorf("Problem generating identifier client %v", err)
 	}
@@ -55,7 +55,7 @@ func TestIdRead(t *testing.T) {
 	if err != nil {
 		t.Errorf("Problem reading identifier %v", err)
 	}
-	reference = basic.NewId(1024, 1025)
+	reference = common.NewId(1024, 1025)
 	if !reflect.DeepEqual(reference, secondId) {
 		t.Errorf("expect %v got %v", reference, secondId)
 	}
